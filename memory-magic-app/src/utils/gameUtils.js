@@ -27,3 +27,17 @@ const CARD_VALUES = [
     }
     return shuffled;
   };
+
+export const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+};
+
+export const getDifficultyName = (difficulty) => {
+  const names = {
+    easy: 'Easy (4×4)',
+    medium: 'Medium (6×6)'
+  };
+  return names[difficulty] || difficulty;
+};

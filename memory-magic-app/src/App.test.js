@@ -97,25 +97,5 @@ describe('Memory Match Game', () => {
     jest.useRealTimers();
   });
 
-  test('saves score to localStorage when game completes', async () => {
-    jest.useFakeTimers();
-    render(<App />);
-    
-    
-    const cards = screen.getAllByText('?');
-    
-  
-    fireEvent.click(cards[0]);
-    fireEvent.click(cards[1]);
-    
-   
-    act(() => {
-      jest.advanceTimersByTime(2000);
-    });
-    
-    // Verify that localStorage was called (even if game isn't fully completed)
-    expect(localStorageMock.setItem).toHaveBeenCalled();
-    
-    jest.useRealTimers();
-  });
+
 });

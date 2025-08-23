@@ -3,6 +3,7 @@ import './App.css';
 import GameBoard from './components/GameBoard';
 import GameOver from './components/GameOver';
 import GameStats from './components/GameStats';
+import GameDifficulty from './components/GameDifficulty';
 import { generateCards, shuffleArray } from '../src/utils/gameUtils';
 
 const DIFFICULTY_LEVELS = {
@@ -51,7 +52,7 @@ function App() {
     return () => clearInterval(interval);
   }, [isGameStarted, isGameOver]);
 
-  // Check for game completion
+ 
   useEffect(() => {
     const config = DIFFICULTY_LEVELS[difficulty];
     if (matchedCards.length === config.pairs * 2 && !scoreSaved) {
@@ -82,7 +83,6 @@ function App() {
     }
   }, [matchedCards, difficulty, moves, time, scoreSaved]);
 
-  // Handle card flip
   const handleCardClick = (cardId) => {
     if (isGameOver) return;
     
@@ -149,6 +149,11 @@ function App() {
        
         
       <GameStats moves={moves} time={time} />
+      <GameDifficulty 
+          difficulty={difficulty}
+          onDifficultyChange={handleDifficultyChange}
+          onReset={handleReset}
+        />
       {isGameOver ? (
           <GameOver 
             moves={moves}

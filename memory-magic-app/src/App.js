@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import GameBoard from './components/GameBoard';
-
+import GameOver from './components/GameOver';
 import { generateCards, shuffleArray } from '../src/utils/gameUtils';
 
 const DIFFICULTY_LEVELS = {
@@ -148,12 +148,21 @@ function App() {
        
         
        
+      {isGameOver ? (
+          <GameOver 
+            moves={moves}
+            time={time}
+            difficulty={difficulty}
+            onNewGame={handleNewGame}
+          />
+        ) : (
           <GameBoard 
             cards={updatedCards}
             onCardClick={handleCardClick}
             rows={config.rows}
             cols={config.cols}
           />
+        )}
         
       </main>
     </div>

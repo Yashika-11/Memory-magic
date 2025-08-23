@@ -4,21 +4,21 @@ describe('Game Utils', () => {
   describe('generateCards', () => {
     test('generates correct number of cards for given pairs', () => {
       const cards = generateCards(4);
-      expect(cards).toHaveLength(8); s
+      expect(cards).toHaveLength(8);
     });
 
     test('generates cards with unique IDs', () => {
       const cards = generateCards(3);
-      const ids = cards.map(crd => card.id);
+      const ids = cards.map(card => card.id);
       const uniqueIds = new Set(ids);
-      expect(uniqueIds.size).toBe(6); 
+      expect(uniqueIds.size).toBe(6);
     });
 
     test('generates cards with matching values', () => {
       const cards = generateCards(2);
       const values = cards.map(card => card.value);
       
-      // Should have exactly 2 of each value
+    
       const valueCounts = {};
       values.forEach(value => {
         valueCounts[value] = (valueCounts[value] || 0) + 1;
@@ -83,5 +83,15 @@ describe('Game Utils', () => {
     });
   });
 
- 
+  describe('getDifficultyName', () => {
+    test('returns correct names for known difficulties', () => {
+      expect(getDifficultyName('easy')).toBe('Easy (4×4)');
+      expect(getDifficultyName('medium')).toBe('Medium (6×6)');
+    });
+
+    test('returns difficulty name for unknown difficulties', () => {
+      expect(getDifficultyName('hard')).toBe('hard');
+      expect(getDifficultyName('expert')).toBe('expert');
+    });
+  });
 });

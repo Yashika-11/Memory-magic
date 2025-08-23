@@ -31,6 +31,13 @@ describe('Memory Match Game', () => {
     expect(screen.getByText('00:00')).toBeInTheDocument();
   });
 
+  test('displays difficulty controls', () => {
+    render(<App />);
+    expect(screen.getByText('Easy (4×4)')).toBeInTheDocument();
+    expect(screen.getByText('Medium (6×6)')).toBeInTheDocument();
+    expect(screen.getByText('Reset')).toBeInTheDocument();
+  });
+
   test('displays game board with cards', () => {
     render(<App />);
    
@@ -38,15 +45,35 @@ describe('Memory Match Game', () => {
     expect(cards.length).toBeGreaterThan(0);
   });
 
+  test('allows difficulty change', () => {
+    render(<App />);
+    const mediumButton = screen.getByText('Medium (6×6)');
+    fireEvent.click(mediumButton);
+    
+   
+    const cards = screen.getAllByText('?');
+    expect(cards.length).toBeGreaterThan(0);
+  });
+
+  test('allows game reset', () => {
+    render(<App />);
+    const resetButton = screen.getByText('Reset');
+    fireEvent.click(resetButton);
+    
+    
+    expect(screen.getByText('0')).toBeInTheDocument();
+    expect(screen.getByText('00:00')).toBeInTheDocument();
+  });
+
   test('tracks moves when cards are flipped', () => {
     render(<App />);
     const cards = screen.getAllByText('?');
     
-    // Click first card
+   
     fireEvent.click(cards[0]);
     expect(screen.getByText('0')).toBeInTheDocument(); // No move yet
     
-    // Click second card
+    
     fireEvent.click(cards[1]);
     expect(screen.getByText('1')).toBeInTheDocument(); // One move
   });
@@ -58,7 +85,7 @@ describe('Memory Match Game', () => {
     
     fireEvent.click(cards[0]);
     
-    
+   
     act(() => {
       jest.advanceTimersByTime(1000);
     });
@@ -77,18 +104,18 @@ describe('Memory Match Game', () => {
     
     const cards = screen.getAllByText('?');
     
-    
+  
     fireEvent.click(cards[0]);
     fireEvent.click(cards[1]);
     
+   
     act(() => {
       jest.advanceTimersByTime(2000);
     });
     
-    // Verify that localStorage was called
+    // Verify that localStorage was called (even if game isn't fully completed)
     expect(localStorageMock.setItem).toHaveBeenCalled();
     
     jest.useRealTimers();
   });
-
 });

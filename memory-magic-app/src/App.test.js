@@ -1,8 +1,94 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Mock localStorage
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
+describe('Memory Match Game', () => {
+  beforeEach(() => {
+    localStorageMock.getItem.mockReturnValue(null);
+    localStorageMock.setItem.mockClear();
+    jest.clearAllTimers();
+  });
+
+  test('renders game title and instructions', () => {
+    render(<App />);
+    expect(screen.getByText('Memory Match Game')).toBeInTheDocument();
+    expect(screen.getByText('Flip cards to find matching pairs')).toBeInTheDocument();
+  });
+
+  test('displays initial game stats', () => {
+    render(<App />);
+    expect(screen.getByText('MOVES')).toBeInTheDocument();
+    expect(screen.getByText('TIME')).toBeInTheDocument();
+    expect(screen.getByText('0')).toBeInTheDocument();
+    expect(screen.getByText('00:00')).toBeInTheDocument();
+  });
+
+  test('displays game board with cards', () => {
+    render(<App />);
+   
+    const cards = screen.getAllByText('?');
+    expect(cards.length).toBeGreaterThan(0);
+  });
+
+  test('tracks moves when cards are flipped', () => {
+    render(<App />);
+    const cards = screen.getAllByText('?');
+    
+    // Click first card
+    fireEvent.click(cards[0]);
+    expect(screen.getByText('0')).toBeInTheDocument(); // No move yet
+    
+    // Click second card
+    fireEvent.click(cards[1]);
+    expect(screen.getByText('1')).toBeInTheDocument(); // One move
+  });
+
+  test('starts timer when first card is flipped', async () => {
+    jest.useFakeTimers();
+    render(<App />);
+    const cards = screen.getAllByText('?');
+    
+    fireEvent.click(cards[0]);
+    
+    
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByText('00:01')).toBeInTheDocument();
+    });
+    
+    jest.useRealTimers();
+  });
+
+  test('saves score to localStorage when game completes', async () => {
+    jest.useFakeTimers();
+    render(<App />);
+    
+    
+    const cards = screen.getAllByText('?');
+    
+    
+    fireEvent.click(cards[0]);
+    fireEvent.click(cards[1]);
+    
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+    
+    // Verify that localStorage was called
+    expect(localStorageMock.setItem).toHaveBeenCalled();
+    
+    jest.useRealTimers();
+  });
+
 });

@@ -17,14 +17,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
-  .game-info {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 800px;
-    width: 100%;
-  }
+ 
   
   .game-states,
   .card-content-info {
@@ -109,10 +102,7 @@
       padding: 0.5rem;
     }
     
-    .game-info {
-      flex-direction: column;
-      gap: 1rem;
-    }
+   
     
     .game-states,
     .card-content-info {

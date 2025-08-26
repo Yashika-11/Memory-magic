@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatTime, getDifficultyName } from '../utils/gameUtils';
-import './GameOver.css';
+import '../styles/GameOver.css';
 
 const GameOver = ({ moves, time, difficulty, onNewGame }) => {
   const isNewRecord = false; // We'll check this in the Leaderboard component

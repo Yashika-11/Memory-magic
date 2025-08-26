@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatTime } from '../utils/gameUtils';
-import './GameStats.css';
+import '../styles/GameStats.css';
 
 const GameStats = ({ moves, time }) => {
   return (

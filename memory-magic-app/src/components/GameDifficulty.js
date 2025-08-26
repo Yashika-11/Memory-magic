@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDifficultyName } from '../utils/gameUtils';
-import './GameDifficulty.css';
+import '../styles/GameDifficulty.css';
 
 const GameDifficulty = ({ difficulty, onDifficultyChange, onReset }) => {
   const difficulties = ['easy', 'medium'];
